@@ -1,0 +1,11 @@
+.hide{
+    display: none;
+  }
+
+.color-correct {
+    background-color: rgb(0, 255, 72);
+}
+   
+.color-wrong {
+    background-color: rgb(255, 0, 0);
+}
