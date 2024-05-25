@@ -3,15 +3,14 @@ const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
-const apiUrl = 'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium'
+const apiUrl = 'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple'
 
 const questionList = () =>{
-    fetch(apiUrl)
- .then((res) => res.json())
- .then((res) => console.log(res))
- .catch((err) => console.error(err))
+    axios.get(apiUrl)
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err))
 }
-   
+console.log() 
 
 let currentQuestionIndex
 
