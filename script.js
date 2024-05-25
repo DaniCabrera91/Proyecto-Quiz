@@ -4,74 +4,46 @@ const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 const apiUrl = 'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple'
+import {backupJSON} from './quiz.js'
+async function questionList() {
+    //Hacer ternario para que en caso que la response sea undefined, coja el JSON local
+    try {
+      const res = await axios.get(apiUrl) 
+      const saveData = res ? JSON.stringify(res.data.results) : JSON.stringify(backupJSON);
+      localStorage.setItem("data", saveData)
+    //   startGame(resString)
+    } catch (error) {
+      console.error(error)
+      localStorage.setItem("dataRespaldo", JSON.stringify(backupJSON))
+    }
+   }
+   
 
-const questionList = () =>{
-    axios.get(apiUrl)
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err))
-}
-console.log() 
 
 let currentQuestionIndex
 
-function startGame() {
- startButton.classList.add('hide')
- currentQuestionIndex = 0
- questionContainerElement.classList.remove('hide')
- setNextQuestion()
+function startGame(arrayQuiz) {
+    console.log(arrayQuiz)
+    //Guardar en localStorage
+    localStorage.setItem('quiz', arrayQuiz)
+
+    //Pintar en pantalla una pregunta
+
+    //Pintar todas
+
+    //detectar que estas pulsando
+
+    //detectar si es correcta o incorrecta 
+
+    //pasar a la siguiente pregunta(Ultimo de momento)
+//  startButton.classList.add('hide')
+//  currentQuestionIndex = 0
+//  questionContainerElement.classList.remove('hide')
 }
 
-function showQuestion(item) {
-    questionElement.innerText = item.question
-    item.answers.forEach((answer) => {
-        const button = document.createElement('button')
-        button.innerText = answer.text
-   
-    if (answer.correct) {
-        button.dataset.correct = true
-    }
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-    })
-}
-   
-function setNextQuestion() {
-    resetState()
-    showQuestion(questionList[currentQuestionIndex])
-}
-   
-function setStatusClass(element) {
-    if (element.dataset.correct) {
-      element.classList.add('color-correct')
-    } else {
-      element.classList.add('color-wrong')
-    }
-}
 
-function selectAnswer() {
-    Array
-   .from(answerButtonsElement.children)
-   .forEach((button) => { setStatusClass(button) })
-    if (questionList.length > currentQuestionIndex + 1) {
-      nextButton.classList.remove('hide')
-    } else {
-      startButton.innerText = 'Restart'
-      startButton.classList.remove('hide')
-    }
-}
- 
-function resetState() {
-    nextButton.classList.add('hide')
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-    }
-}
-   
 
-startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', questionList)
 
-nextButton.addEventListener('click', () => {
-    currentQuestionIndex++
-    setNextQuestion()
- })
+
  
