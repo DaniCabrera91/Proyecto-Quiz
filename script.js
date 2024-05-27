@@ -12,6 +12,9 @@ async function questionList() {
     const res = await axios.get(apiUrl) 
     const saveData = res ? JSON.stringify(res.data.results) : JSON.stringify(backupJSON);
     localStorage.setItem("data", saveData)
+    const dataItem = JSON.parse(localStorage.getItem("data"))
+    console.log(dataItem);
+    return showQuestion(dataItem,0)
     //startGame(resString)
   }catch (error) {
     console.error(error)
@@ -19,32 +22,30 @@ async function questionList() {
   }
 }   
 
-let currentQuestionIndex = backupJSON
 
 function startGame() {
+
   startButton.classList.add('hide')
-  currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
-  return showQuestion()
+  questionList();
 }
 
 
-function showQuestion(item) {
-  console.log(backupJSON);
-  questionElement.innerText = item.question
-  console.log(item.question);
-  item.answers.forEach((answer) => {
-  const button = document.createElement('button')
-  button.innerText = answer.text
-      
-  if (answer.correct) {
-    button.dataset.correct = true
-  }
-  button.addEventListener('click', selectAnswer)
-  answerButtonsElement.appendChild(button)
-  })
-}
-      
+    function showQuestion(pato, current) {
+      console.log(pato[current].question)
+      // pato.forEach(element => {
+      //   console.log(element.question);
+      //   const questionElement = document.createElement('p');
+      //   questionElement.innerHTML += `${element.type} Hola` 
+      // });
+
+      const questionContainer = document.getElementById('question-container');
+      questionContainer.appendChild(questionElement);
+    }
+    function selectedAnswer(){
+     //COMRPOBAR SI ES CORRECTO (HACEIS LO QUE TENGAIS QUE HACER)
+    }
+  
 
 startButton.addEventListener('click', startGame)
 
