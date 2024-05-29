@@ -49,7 +49,7 @@ function showQuestion(dataQuiz, current) {
 
 
   answerButtonsElement.innerHTML = ''; // Limpia los botones anteriores.
-
+  
   const correctAnswer = dataQuiz[current].correct_answer;
   const incorrectAnswers = dataQuiz[current].incorrect_answers;
 
@@ -65,6 +65,7 @@ const allAnswers = [correctAnswer].concat(incorrectAnswers);
 //Mostrar las preguntas mezcladas:
   allAnswers.forEach((answer, index) =>{
     const button = document.createElement('button')
+    button.className += "btn btn-sm btn-warning"
     button.textContent = answer;
     button.dataset.index = index;
     button.addEventListener('click', selectAnswer);
@@ -81,10 +82,11 @@ function selectAnswer(event) {
   }
   event.target.classList.add('selected'); // Add 'selected' class to the clicked button
 
-  // Check answer and update score
+  // Comprobación de si es correcto y sumar al resultado: 
   const correctOption = dataQuiz[current].correct_answer;
   if (selectedAnswer === correctOption) {
     score++;
+    correctOption.className += "btn btn-success";
   }
 
   // Save quiz progress to local storage
