@@ -13,12 +13,13 @@ let dataQuiz;
 let current = 0;
 let selectedAnswer = null;
 let score = 0;
-
+localStorage.clear()
 // Importación del BackUp:
 import {backupJSON} from './quiz.js'
 
 // Función que llama a los datos del local storage:
 async function questionList() {
+
   //Hacer ternario para que en caso que la response sea undefined, coja el JSON local
   try {
     const res = await axios.get(apiUrl) 
@@ -33,7 +34,8 @@ async function questionList() {
 }   
 
 // Función de inicio del quiz:
-function startGame() {
+function startGame(e) {
+  e.preventDefault()
   startButton.classList.add('hide')
   questionContainerElement.classList.remove('hide')
   questionList();
@@ -45,75 +47,75 @@ function showQuestion(dataQuiz, current) {
   questionElement = document.createElement('p');
   
   questionElement.innerHTML += `${dataQuiz[current].question}`; 
-  questionContainerElement.appendChild(questionElement);
-
-
+  
+  nextButton.classList.add('hide')
   answerButtonsElement.innerHTML = ''; // Limpia los botones anteriores.
+  answerButtonsElement.appendChild(questionElement);
   
   const correctAnswer = dataQuiz[current].correct_answer;
   const incorrectAnswers = dataQuiz[current].incorrect_answers;
-
-// Combinar arrays de respuestas:
-const allAnswers = [correctAnswer].concat(incorrectAnswers);  
-
-//Mezclar arrays de respuestas:
+  
+  // Combinar arrays de respuestas:
+  const allAnswers = [correctAnswer].concat(incorrectAnswers);  
+  
+  //Mezclar arrays de respuestas:
   for (let i = allAnswers.length -1; i>0; i--){
     const j = Math.floor(Math.random() * (i+1));
     [allAnswers[i], allAnswers[j]] = [allAnswers[j], allAnswers[i]];
   }
-
-//Mostrar las preguntas mezcladas:
+  
+  //Mostrar las preguntas mezcladas:
   allAnswers.forEach((answer, index) =>{
-    const button = document.createElement('button')
-    button.className += "btn btn-sm btn-warning"
-    button.textContent = answer;
-    button.dataset.index = index;
-    button.addEventListener('click', selectAnswer);
-    answerButtonsElement.appendChild(button);
+    const answersButton = document.createElement('button')
+    answersButton.className += "btn btn-sm btn-warning"
+    answersButton.textContent = answer;
+    answersButton.dataset.index = index;
+    answersButton.addEventListener('click', selectAnswer);
+    answerButtonsElement.appendChild(answersButton);
   })
 }
 //COMRPOBAR SI ES CORRECTO (HACEIS LO QUE TENGAIS QUE HACER)
 function selectAnswer(event) {
-  selectedAnswer = dataQuiz[current].answers;
-
-  // Update button classes (optional)
-  for (const button of answerButtonsElement.children) {
-    button.classList.remove('selected'); // Remove 'selected' class from all buttons
-  }
-  event.target.classList.add('selected'); // Add 'selected' class to the clicked button
-
-  // Comprobación de si es correcto y sumar al resultado: 
-  const correctOption = dataQuiz[current].correct_answer;
-  if (selectedAnswer === correctOption) {
-    score++;
-    correctOption.className += "btn btn-success";
-  }
-
-  // Save quiz progress to local storage
+  // Guardar las respuestas en localStorage:
   const quizProgress = {
-    currentQuestion: current + 1, // Increment for next question
-    score: score, // Update score
-    dataQuiz: dataQuiz // Store entire quiz data for reference
+    currentQuestion: current + 1,
+    score: score,
+    dataQuiz: dataQuiz
   };
+  
+  const correctOption = dataQuiz[current].correct_answer;
 
+  event.target.classList.remove('btn-warning');
+  // Comprobación de si es correcto y sumar al resultado: 
+  if (event.target.textContent === correctOption) {
+    score++;
+    
+    event.target.className += " btn-success";
+    console.log(score);
+  }else{
+    event.target.className += " btn-danger";
+    console.log("pues no")
+  }
+  nextButton.classList.remove('hide')
   // Subiendo a localStorage los resultados de las repuestas: 
   localStorage.setItem('quizProgress', JSON.stringify(quizProgress));
-
-  //Condicional para saber si quedan aún preguntas:
-  if (current < dataQuiz.length - 1) {
-    // Pasar a la siguiente pregunta:
-    current++;
-    showQuestion(dataQuiz, current);
-  } else {
-
- // Hacer que termine el concurso:
- // Conseguir que salga por DOM una nueva página igual nueva funcion para ocultar lo demas y mostrar esto? 
- // De aquí pasar de vuelta a inicio o en caso de poder pasar un gráfico con el resultado:
-    console.log('Quiz completed! Score:', score);
-  }
 }
 
-    
+function nextQuestion(){
+    //Condicional para saber si quedan aún preguntas:
+    if (current < dataQuiz.length - 1) {
+      current++;
+      showQuestion(dataQuiz, current);
+    } else {
+  
+   // Hacer que termine el concurso:
+   // Conseguir que salga por DOM una nueva página igual nueva funcion para ocultar lo demas y mostrar esto? 
+   // De aquí pasar de vuelta a inicio o en caso de poder pasar un gráfico con el resultado:
+      console.log('Quiz completed! Score:', score);
+    }
+}
+
+nextButton.addEventListener('click', nextQuestion)
 startButton.addEventListener('click', startGame)
 
 
