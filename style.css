@@ -18,6 +18,11 @@ body {
   width: 60rem;
 }
 
+h2{
+  display: flex;
+  text-align: center;
+}
+
 .controls button{
   margin-top: 2rem;
   padding: 1rem 5rem 1rem 5rem;
