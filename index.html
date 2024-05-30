@@ -10,13 +10,16 @@
     <script type="module" src="script.js" defer></script>
 </head>
 <body>
-    <div id="question">Quiz</div>
-    <section id="question-container" >
+    <div id="question" class=""><h1>QUIZ</h1></div>
+    <section id="question-container" class="alert alert-dismissible alert-primary hide">
         <div id="answer-buttons"></div>
+        <button id="next-btn" class="hide btn btn-info">Next</button>
     </section>
     <div class="controls">
         <button id="start-btn" class="btn btn-lg btn-primary">Start</button>
-        <button id="next-btn" class="hide btn btn-info">Next</button>
+    </div>
+    <div id="final-score-container" class="hide">
+        <button id="restart-btn" class="btn btn-lg btn-primary">Try Again</button>
     </div>
 </body>
 </html>
