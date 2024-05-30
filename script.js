@@ -98,13 +98,10 @@ function selectAnswer(event) {
   event.target.classList.remove('btn-warning');
 // Comprobación de si es correcto y sumar al resultado: 
   if (event.target.textContent === correctOption) {
-    score++;
-    
+    score++;  
     event.target.className += " btn-success";
-    console.log(score);
   }else{
-    event.target.className += " btn-danger";
-    console.log("pues no")
+    event.target.className += " btn-danger"; 
   }
   nextButton.classList.remove('hide')
 // Subiendo a localStorage los resultados de las repuestas: 

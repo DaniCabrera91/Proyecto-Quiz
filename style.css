@@ -3,26 +3,74 @@
   }
 
 
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-image: linear-gradient(90deg, #33b7e2, #5e62b0, #dc307c);
+  margin: 0;
+}
 
-/* #question-container {
+.alert{
+  height: 36rem;
+  width: 60rem;
+}
+
+.controls button{
+  margin-top: 2rem;
+  padding: 1rem 5rem 1rem 5rem;
+
+}
+
+#title{
+  display: flex;
+  font-size: 6rem;
+}
+#answer-buttons{
+  display: flex;
+  flex-flow: column wrap;
+}
+
+#answer-buttons button{
+  display: flex;
+  flex-flow: column wrap;
+  font-size: 1.25rem; 
+  margin: 1rem;
+  padding: 1rem 2rem 1rem 2rem;
+}
+
+/* Styles for screens smaller than 768px */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Adjust font size for smaller screens */
+  }
+
+  .controls {
+    margin-bottom: 20px; /* Add space between controls and question */
+  }
+
+  .question-container {
+    width: 90%; /* Make question container more responsive */
+  }
+
+  #answer-buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Arrange buttons vertically */
     align-items: center;
   }
-  
-  #question {
-    margin-bottom: 20px; 
-  }
-  
-  #answer-buttons {
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-  }
-  
+
   #answer-buttons button {
-    margin: 5px;
-    padding: 10px 20px; 
-    border: 1px solid #ccc; 
-    cursor: pointer; 
-  } */
+    margin-bottom: 10px; /* Add space between buttons */
+  }
+}
+
+#final-score-container{
+  display: flex;
+  flex-flow: column-reverse;
+}
+
+#final-score-container h3{
+margin-bottom: 3rem;
+}
