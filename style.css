@@ -54,3 +54,10 @@ h2{
 #final-score-container h3{
 margin-bottom: 3rem;
 }
+  
+  /* Consultas de medios para pantallas pequeñas */
+  @media (max-width: 768px) {
+    #question-container, #final-score-container {
+      width: 95%;
+    }
+}

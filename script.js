@@ -124,7 +124,11 @@ function nextQuestion(){
   
 // Crear y mostrar el resultado final en el DOM
       const finalScoreElement = document.createElement('h3');
-      finalScoreElement.textContent = `¡Enhorabuena! Tu puntuación final es de ${score}/10`;
+      if(score < 5){
+        finalScoreElement.textContent = `¡Ánimo vuelve a intentarlo! Tu puntuación final es de ${score}/10`;
+      }else{
+        finalScoreElement.textContent = `¡Enhorabuena! Tu puntuación final es de ${score}/10`;
+      }
       finalScoreContainer.appendChild(finalScoreElement);
       
 // Crear y mostrar el botón de reinicio en el DOM
@@ -132,21 +136,12 @@ function nextQuestion(){
     }  
 }
 
+//Recarga de la página para volver a empezar:
 function restartGame(e) {
   e.preventDefault();
-  window.location.reload(); // Reload the page to restart the quiz
+  window.location.reload(); 
 }
+
 nextButton.addEventListener('click', nextQuestion)
 restartButton.addEventListener('click', restartGame); // Reiniciar el quiz al hacer clic
 startButton.addEventListener('click', startGame)
-
-
-    //Pintar en pantalla una pregunta
-
-    //Pintar todas
-
-    //detectar que estas pulsando
-
-    //detectar si es correcta o incorrecta 
-
-    //pasar a la siguiente pregunta(Ultimo de momento)
