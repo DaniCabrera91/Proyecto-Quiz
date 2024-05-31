@@ -16,7 +16,7 @@ let current = 0;
 let score = 0;
 
 //Limpiar locaStorage cada vez que carga: 
-localStorage.clear()
+localStorage.removeItem("data");
 
 // Importación del BackUp:
 import {backupJSON} from './quiz.js'
@@ -32,8 +32,9 @@ async function questionList() {
     dataQuiz = JSON.parse(localStorage.getItem("data"))
     return showQuestion(dataQuiz, current)
   }catch (error) {
-    console.error(error)
     localStorage.setItem("dataBackup", JSON.stringify(backupJSON))
+    dataQuiz = JSON.parse(localStorage.getItem("dataBackup"))
+    return showQuestion(dataQuiz.results,current);
   }
 }   
 
@@ -105,7 +106,7 @@ function selectAnswer(event) {
   }
   nextButton.classList.remove('hide')
 // Subiendo a localStorage los resultados de las repuestas: 
-  localStorage.setItem('quizProgress', JSON.stringify(quizProgress));
+  localStorage.setItem('contestant', JSON.stringify(quizProgress));
 }
 
 function nextQuestion(){
